@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #000010, #000015, #000);
+      color: #fff;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #00e0ff, #ff00d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #00f0ff88;
+    }
+
+    .back-btn {
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: 1px solid rgba(0, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.5);
+      color: #00eaff;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #00eaff;
+      text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      color: #00eaff;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-admin { background: rgba(255, 0, 212, 0.2); color: #ff00d4; border: 1px solid #ff00d4; }
+    .badge-user { background: rgba(0, 255, 255, 0.2); color: #00eaff; border: 1px solid #00eaff; }
+    .badge-verified { color: #00ff88; }
+    .badge-unverified { color: #ff4d4d; }
+
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 5px;
+      transition: 0.2s;
+    }
+
+    .btn-delete {
+      background: rgba(255, 77, 77, 0.2);
+      color: #ff4d4d;
+      border: 1px solid rgba(255, 77, 77, 0.5);
+    }
+
+    .btn-delete:hover {
+      background: rgba(255, 77, 77, 0.4);
+      box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+    }
+
+    .btn-toggle {
+      background: rgba(255, 255, 0, 0.2);
+      color: #ffff00;
+      border: 1px solid rgba(255, 255, 0, 0.5);
+    }
+
+    .btn-toggle:hover {
+      background: rgba(255, 255, 0, 0.4);
+    }
+
+    .flash-messages {
+      margin-bottom: 20px;
+    }
+    .flash {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #fff;
+    }
+    .flash-success { border-color: #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.1); }
+    .flash-error { border-color: #ff4d4d; color: #ff4d4d; background: rgba(255, 77, 77, 0.1); }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">⚡ PHOENIX ADMIN</div>
+    <a href="{{ url_for('dashboard') }}" class="back-btn">Exit to Dashboard</a>
+  </header>
+
+  <div class="container">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h1>System Overview</h1>
+
+    <div class="card">
+      <h2>User Management</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>#{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.username or 'N/A' }}</td>
+            <td>
+              {% if user.is_admin %}
+                <span class="badge badge-admin">ADMIN</span>
+              {% else %}
+                <span class="badge badge-user">USER</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.is_verified %}
+                <span class="badge badge-verified">Verified</span>
+              {% else %}
+                <span class="badge badge-unverified">Pending</span>
+              {% endif %}
+            </td>
+            <td>{{ user.created_at }}</td>
+            <td>
+              <form action="{{ url_for('toggle_admin', user_id=user.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="action-btn btn-toggle">
+                  {% if user.is_admin %}Demote{% else %}Promote{% endif %}
+                </button>
+              </form>
+              <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                <button type="submit" class="action-btn btn-delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>System Logs</h2>
+      <p style="color: #aaa; font-style: italic;">Backend logs integration coming soon...</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Set Username | Phoenix Project</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  body{
+    height:100vh;
+    font-family:'Poppins',sans-serif;
+    background:radial-gradient(circle at center,#000010,#000015,#000);
+    overflow:hidden;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  canvas#energy{
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    z-index:0;
+  }
+
+  header{
+    position:fixed;
+    top:40px;left:60px;
+    font-family:'Orbitron',sans-serif;
+    font-size:1.8rem;
+    letter-spacing:3px;
+    background:linear-gradient(90deg,#00e0ff,#ff00d4);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 20px #00f0ff88;
+    z-index:3;
+  }
+
+  .box{
+    z-index:2;
+    width:90%;
+    max-width:420px;
+    padding:40px 30px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(0,255,255,0.25);
+    border-radius:20px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 0 35px rgba(0,255,255,0.25);
+    animation:fadeIn 1.5s;
+    text-align:center;
+  }
+
+  h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:2rem;
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#00eaff,#ff00a6,#00ffe0);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+
+  p{
+    color:#bcbcbc;
+    margin-bottom:20px;
+  }
+
+  input{
+    width:100%;
+    padding:12px 15px;
+    border-radius:12px;
+    border:none;
+    background:rgba(255,255,255,0.1);
+    color:white;
+    outline:none;
+    font-size:1rem;
+    margin-bottom:20px;
+    transition:0.3s;
+  }
+
+  input:focus{
+    background:rgba(255,255,255,0.2);
+    box-shadow:0 0 12px rgba(0,255,255,0.7);
+  }
+
+  button{
+    width:100%;
+    padding:12px 25px;
+    border:none;
+    border-radius:40px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,#00d9ff,#0072ff);
+    color:white;
+    box-shadow:0 0 20px rgba(0,217,255,0.4);
+    transition:0.3s;
+  }
+
+  button:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 30px rgba(0,217,255,0.8);
+  }
+
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+</style>
+
+</head>
+
+<body>
+
+<canvas id="energy"></canvas>
+<header>⚡ PHOENIX</header>
+
+<div class="box">
+  <h1>Set Your Username</h1>
+  <p>Choose how you want Phoenix to call you.</p>
+
+  <form method="POST" action="{{ url_for('name') }}">
+
+    <input type="text" name="username" placeholder="Enter your username" required>
+    <button type="submit">Continue</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Settings</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #000010, #000015, #000);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Background Canvas */
+    canvas#energy {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Header same as login page */
+    header {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #00e0ff, #ff00d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #00f0ff88;
+      z-index: 3;
+    }
+
+    /* Profile icon same style as login page */
+    .profile-icon {
+      position: fixed;
+      top: 32px;
+      right: 200px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: radial-gradient(circle, #00ffe0 0%, #0077ff 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.7);
+      z-index: 10;
+      transition: 0.2s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 26px rgba(0, 255, 255, 1);
+    }
+
+    /* Back button */
+    .back-btn {
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00eaff, #0077ff);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 150, 255, 0.6);
+      z-index: 10;
+      transition: 0.25s ease-in-out;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(0, 180, 255, 1);
+    }
+
+    /* Settings Container */
+    .settings-container {
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      max-width: 450px;
+      margin: 150px auto 0;
+      padding: 40px 35px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      border-radius: 20px;
+      box-shadow: 0 0 32px rgba(0, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 1.6s ease-out;
+    }
+
+    .settings-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      text-align: center;
+      background: linear-gradient(90deg, #00eaff, #ff00a6, #00ffe0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 25px;
+    }
+
+    /* Form */
+    label {
+      font-size: 0.95rem;
+      color: #bcbcbc;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #fff;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+    }
+
+    button.save-btn {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      border-radius: 35px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00eaff, #ff00a6, #00ffe0);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    button.save-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.8);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #fff;
+      opacity: 0.8;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="energy"></canvas>
+
+  <header>⚡ PHOENIX</header>
+
+  <button class="back-btn" onclick="window.location.href='{{ url_for('dashboard') }}'">← Back</button>
+
+  <div class="profile-icon" onclick="window.location.href='{{ url_for('profile') }}'">👤</div>
+
+  <div class="settings-container">
+    <div class="settings-title">Update Username</div>
+
+    <form method="POST" action="{{ url_for('update_username') }}">
+      <label>New Username</label>
+      <input type="text" name="username" placeholder="Enter new username" required />
+
+      <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+  </div>
+
+  <footer>© 2025 Phoenix AI • Rise with Intelligence</footer>
+
+</body>
+
+</html>

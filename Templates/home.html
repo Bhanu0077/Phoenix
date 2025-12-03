@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <canvas id="energy"></canvas>
+  <header>
+    ⚡ PHOENIX
+  </header>
+  <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+
+  <div class="profile-icon" onclick="window.location.href='{{ url_for('settings_page') }}'">
+    👤
+  </div>
+  <div class="login-box">
+    <h1>User Panel</h1>
+    <p>Welcome back <strong>{{ username }}</strong>. Choose your domain to proceed.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="login-form">
+      <div class="button-group">
+        <button class="btn" onclick="window.location.href='{{ url_for('ai') }}'">AI ASSISTANT</button>
+        <button class="btn" onclick="window.location.href='{{ url_for('robot') }}'">ROBOT</button>
+      </div>
+
+      {% if is_admin %}
+      <div class="admin-section">
+        <button class="btn admin-btn" onclick="window.location.href='{{ url_for('admin_dashboard') }}'">ADMIN
+          PANEL</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <footer>© 2025 Phoenix AI • Rise with Intelligence</footer>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #000010, #000015, #000);
+      overflow: hidden;
+      color: #fff;
+    }
+
+    canvas#energy {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    header {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #00e0ff, #ff00d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #00f0ff88;
+      z-index: 2;
+    }
+
+    .login-box {
+      position: relative;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      padding: 40px 30px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 2s ease-out;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #00eaff, #ff00a6, #00ffe0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glowPulse 3s infinite alternate;
+    }
+
+    p {
+      color: #bcbcbc;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      padding: 12px 30px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s;
+      background: linear-gradient(90deg, #00d9ff, #0072ff);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
+    }
+
+    .admin-section {
+      margin-top: 10px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+
+    .admin-btn {
+      background: linear-gradient(90deg, #ff00d4, #aa00ff);
+      box-shadow: 0 0 20px rgba(255, 0, 212, 0.4);
+      width: 100%;
+    }
+
+    .admin-btn:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 212, 0.8);
+    }
+
+    .logout-btn {
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      padding: 10px 26px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #ff005e, #ff4da6);
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 0, 120, 0.6);
+      transition: 0.25s ease-in-out;
+      z-index: 5;
+    }
+
+    .logout-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(255, 0, 140, 1);
+    }
+
+    .flash-messages {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .flash {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .flash-success {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .flash-error {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .flash-warning {
+      border-color: #f97316;
+      color: #f97316;
+    }
+
+    .flash-info {
+      border-color: #0ea5e9;
+      color: #0ea5e9;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 25px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #fff;
+      letter-spacing: 1px;
+      z-index: 2;
+    }
+
+    .profile-icon {
+      position: fixed;
+      top: 32px;
+      right: 200px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: radial-gradient(circle, #00ffe0 0%, #0077ff 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+      z-index: 5;
+      transition: 0.2s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -40%)
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%)
+      }
+    }
+
+    @keyframes glowPulse {
+      from {
+        text-shadow: 0 0 20px #00faff44, 0 0 30px #ff00ff22
+      }
+
+      to {
+        text-shadow: 0 0 40px #00faffaa, 0 0 60px #ff00ff55
+      }
+    }
+  </style>
+</body>
+
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robot Control - Phoenix AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #000010, #000015, #000);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* energy canvas (optional, same id as other pages) */
+    canvas#energy {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* PHOENIX header (left top) */
+    header {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #00e0ff, #ff00d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #00f0ff88;
+      z-index: 3;
+    }
+
+    /* Profile icon (top right) */
+    .profile-icon {
+      position: fixed;
+      top: 32px;
+      right: 200px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: radial-gradient(circle, #00ffe0 0%, #0077ff 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.7);
+      z-index: 3;
+      transition: 0.2s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 26px rgba(0, 255, 255, 1);
+    }
+
+    /* Back button (top right, next to profile) */
+    .back-btn {
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00eaff, #0077ff);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 150, 255, 0.6);
+      z-index: 3;
+      transition: 0.25s ease-in-out;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(0, 180, 255, 1);
+    }
+
+    /* Bluetooth button (top right, more left) */
+    .bluetooth-btn {
+      position: fixed;
+      top: 32px;
+      right: 290px;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #00ffbb, #00b4ff);
+      color: black;
+      box-shadow: 0 0 16px rgba(0, 255, 200, 0.7);
+      z-index: 3;
+      transition: 0.25s;
+    }
+
+    .bluetooth-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 26px rgba(0, 255, 255, 1);
+    }
+
+    /* Center container */
+    .center-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Robot control card */
+    .robot-card {
+      position: relative;
+      max-width: 460px;
+      width: 90%;
+      padding: 32px 30px 32px;
+      background: rgba(8, 16, 40, 0.85);
+      border-radius: 22px;
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      box-shadow:
+        0 0 35px rgba(0, 255, 255, 0.18),
+        0 0 55px rgba(255, 0, 166, 0.12);
+      backdrop-filter: blur(14px);
+      text-align: center;
+      animation: fadeIn 1.6s ease-out;
+    }
+
+    .robot-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #00eaff, #ff00a6, #00ffe0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .robot-sub {
+      font-size: 0.95rem;
+      color: #bcbcbc;
+      margin-bottom: 26px;
+    }
+
+    /* Control grid */
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: center;
+      justify-items: center;
+      margin-bottom: 24px;
+    }
+
+    .control-btn {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 255, 255, 0.7);
+      background: radial-gradient(circle at 30% 0%, rgba(0, 255, 255, 0.25), rgba(0, 0, 40, 0.9));
+      color: #00f5ff;
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.55);
+      transition: 0.2s ease;
+    }
+
+    .control-btn.stop {
+      border-color: rgba(255, 0, 120, 0.9);
+      color: #ff3b9b;
+      box-shadow: 0 0 20px rgba(255, 0, 120, 0.7);
+      background: radial-gradient(circle at 30% 0%, rgba(255, 0, 120, 0.3), rgba(20, 0, 40, 0.95));
+    }
+
+    .control-btn:hover {
+      transform: scale(1.08) translateY(-1px);
+      box-shadow: 0 0 28px rgba(0, 255, 255, 1);
+    }
+
+    .control-btn.stop:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 140, 1);
+    }
+
+    /* Status line */
+    #status {
+      margin-top: 6px;
+      font-size: 0.98rem;
+      color: #9beeff;
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+      font-style: italic;
+      min-height: 1.4em;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="energy"></canvas>
+
+  <header>⚡ PHOENIX</header>
+
+  <!-- Back + Bluetooth + Profile -->
+  <button class="back-btn" onclick="window.location.href='{{ url_for('dashboard') }}'">
+    ← Home
+  </button>
+
+  <button class="bluetooth-btn" onclick="requestBluetooth()">
+    🔵 Connect Bluetooth
+  </button>
+
+  <div class="profile-icon" onclick="window.location.href='{{ url_for('settings_page') }}'">
+    👤
+  </div>
+
+  <!-- Center Robot Control Card -->
+  <div class="center-wrap">
+    <div class="robot-card">
+      <div class="robot-title">Robot Control</div>
+      <p class="robot-sub">
+        Send real-time movement commands to your Phoenix-powered robot.
+      </p>
+
+      <div class="control-grid">
+        <div></div>
+        <button class="control-btn" onclick="sendCommand('Forward')">▲</button>
+        <div></div>
+
+        <button class="control-btn" onclick="sendCommand('Left')">◀</button>
+        <button class="control-btn stop" onclick="sendCommand('Stop')">⏸</button>
+        <button class="control-btn" onclick="sendCommand('Right')">▶</button>
+
+        <div></div>
+        <button class="control-btn" onclick="sendCommand('Backward')">▼</button>
+        <div></div>
+      </div>
+
+      <div id="status">Waiting for command...</div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Bluetooth globals & UUIDs (HM-10 default transparent UART) ----
+    let bleDevice = null;
+    let bleServer = null;
+    let bleService = null;
+    let bleCharacteristic = null;
+
+    // HM-10 common service & characteristic UUIDs
+    const SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    const CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
+
+    const statusEl = document.getElementById("status");
+
+    // Map button names → single-character commands for Arduino
+    const COMMAND_MAP = {
+      "Forward": "F",
+      "Backward": "B",
+      "Left": "L",
+      "Right": "R",
+      "Stop": "S"
+    };
+
+    async function requestBluetooth() {
+      if (!navigator.bluetooth) {
+        alert("Bluetooth not supported in this browser.");
+        return;
+      }
+
+      try {
+        statusEl.textContent = "Requesting Bluetooth device...";
+        const device = await navigator.bluetooth.requestDevice({
+          // HM-10 usually shows with names like HMSoft / BT05 etc
+          acceptAllDevices: true,
+          optionalServices: [SERVICE_UUID]
+        });
+
+        bleDevice = device;
+        statusEl.textContent = "Connecting to " + (device.name || "robot") + "...";
+
+        bleDevice.addEventListener("gattserverdisconnected", onDisconnected);
+
+        bleServer = await bleDevice.gatt.connect();
+        bleService = await bleServer.getPrimaryService(SERVICE_UUID);
+        bleCharacteristic = await bleService.getCharacteristic(CHARACTERISTIC_UUID);
+
+        statusEl.textContent = "✅ Bluetooth connected: " + (device.name || "robot");
+      } catch (error) {
+        console.error(error);
+        statusEl.textContent = "⚠️ Bluetooth connection cancelled or failed.";
+      }
+    }
+
+    function onDisconnected() {
+      bleServer = null;
+      bleService = null;
+      bleCharacteristic = null;
+      statusEl.textContent = "❌ Bluetooth disconnected.";
+    }
+
+    async function sendCommand(command) {
+      // UI status text + glow pulse
+      statusEl.textContent = `Command: ${command} ⚡`;
+      statusEl.style.textShadow = "0 0 24px rgba(0,255,255,0.95)";
+      setTimeout(() => {
+        statusEl.style.textShadow = "0 0 12px rgba(0,255,255,0.6)";
+      }, 350);
+
+      // If Bluetooth not connected, just warn
+      if (!bleCharacteristic) {
+        statusEl.textContent = "⚠️ Connect Bluetooth first, then send commands.";
+        return;
+      }
+
+      const shortCmd = COMMAND_MAP[command] || command.charAt(0);
+
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(shortCmd);
+        await bleCharacteristic.writeValue(data);
+        // Optionally log to console for debugging
+        console.log("Sent over BLE:", shortCmd);
+      } catch (error) {
+        console.error("Failed to send command:", error);
+        statusEl.textContent = "⚠️ Failed to send command.";
+      }
+    }
+  </script>
+</body>
+
+</html>

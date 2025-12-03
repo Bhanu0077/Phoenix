@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Verified - Phoenix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+    @keyframes gradient-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-gradient {
+      background-size: 200% 200%;
+      animation: gradient-animation 4s ease infinite;
+    }
+    .neon-text {
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+    }
+    .icon-shadow {
+      filter: drop-shadow(0 0 8px #0ff) drop-shadow(0 0 16px #0ff);
+    }
+    .form-glow {
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2), 0 0 30px rgba(255, 0, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+    html.light .form-glow {
+      box-shadow: 0 0 15px rgba(0, 122, 255, 0.2);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00bfff", // Deep Sky Blue - used for gradient
+            "background-light": "#e0e7ff", // Light lavender blue
+            "background-dark": "#0a031a", // Deep indigo
+          },
+          fontFamily: {
+            display: ["Orbitron", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem", // 12px
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-300 dark:text-gray-300 antialiased">
+<div class="flex flex-col min-h-screen">
+<header class="absolute top-0 left-0 w-full p-6 sm:p-8">
+<div class="flex items-center space-x-3">
+<span class="material-icons text-3xl" style="color: #00ffff; text-shadow: 0 0 8px #00ffff;">bolt</span>
+<span class="text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500">
+          PHOENIX
+        </span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center p-4">
+<div class="w-full max-w-md mx-auto">
+<div class="bg-slate-200/20 dark:bg-gray-900/40 backdrop-blur-sm p-8 sm:p-10 rounded-2xl form-glow">
+<div class="flex flex-col items-center text-center">
+<div class="mb-6">
+<span class="material-icons text-7xl text-cyan-400 icon-shadow">verified_user</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-black tracking-wider uppercase mb-4">
+<span class="text-slate-800 dark:text-gray-200">Email </span>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 neon-text">Verified!</span>
+</h1>
+<p class="text-slate-600 dark:text-gray-400 mb-8 max-w-xs">
+              Your account is now active. Welcome to the future of AI.
+            </p>
+<button class="w-full py-3 px-6 text-white font-bold text-lg rounded-lg bg-gradient-to-r from-cyan-400 to-blue-600 hover:from-cyan-500 hover:to-blue-700 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:focus:ring-cyan-800 transition-all duration-300 shadow-lg shadow-cyan-500/30 animate-gradient">
+              Continue to Dashboard
+            </button>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full text-center p-6 sm:p-8">
+<p class="text-sm text-gray-500 dark:text-gray-500">© 2025 Phoenix AI • Evolve Beyond</p>
+</footer>
+</div>
+
+</body></html>

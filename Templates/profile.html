@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phoenix Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 80%, #1c1c1e 30%, #000);
+      color: #f2f2f2;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .logo {
+      font-family: 'Cinzel Decorative', serif;
+      background: linear-gradient(90deg, #ff6a00, #c70039);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(255, 105, 0, 0.4);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 105, 0, 0.2);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 40px rgba(255, 105, 0, 0.6);
+      border-color: #ffd700;
+    }
+
+    .profile-pic {
+      border: 3px solid #ffd700;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      transition: all 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      box-shadow: 0 0 20px rgba(255, 105, 0, 0.6);
+      transform: scale(1.05);
+    }
+
+    .btn {
+      border-radius: 9999px;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      border: 2px solid #ffd700;
+      color: #ffd700;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #ff6a00, #c70039);
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 105, 0, 0.6);
+    }
+
+    .ember {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff6a00 0%, transparent 70%);
+      animation: flicker 3s infinite ease-in-out;
+      opacity: 0.5;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.3; transform: translateY(0px); }
+      50% { opacity: 1; transform: translateY(-10px); }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center relative">
+  <button 
+        onclick="window.location.href='{{ url_for('dashboard') }}'" 
+        style="
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          background: linear-gradient(90deg, #ff6a00, #c70039);
+          border: none;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 30px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        "
+        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)';"
+      >
+        ← Back to Home
+  </button>
+  <!-- Embers -->
+  <div class="ember" style="top: 20%; left: 25%; animation-delay: 0.3s;"></div>
+  <div class="ember" style="top: 60%; left: 70%; animation-delay: 0.8s;"></div>
+  <div class="ember" style="top: 40%; left: 50%; animation-delay: 1.5s;"></div>
+
+  <!-- Logo -->
+  <h1 class="logo text-4xl font-bold mb-8">phoenix</h1>
+
+  <!-- Profile Card -->
+  <div class="card w-[380px] p-8 flex flex-col items-center text-center">
+
+    <!-- Profile Image -->
+    <img src="https://via.placeholder.com/120" alt="Profile" class="profile-pic mb-5" />
+
+    <!-- User Info -->
+    <h2 class="text-2xl font-bold mb-1 text-[#ffd700]">John Doe</h2>
+    <p class="text-gray-400 mb-4">AI Engineer • Phoenix Labs</p>
+
+    <div class="space-y-2 text-sm text-gray-300 mb-6">
+      <p><span class="text-[#ff6a00] font-semibold">Email:</span> {{ email }}</p>
+      <p><span class="text-[#ff6a00] font-semibold">Role:</span> Robotics Developer</p>
+      <p><span class="text-[#ff6a00] font-semibold">Joined:</span> March 2024</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex space-x-4">
+      <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit_profile') }}'">Edit Profile</button>
+      <button class="btn btn-primary" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+    </div>
+  </div>
+</body>
+</html>

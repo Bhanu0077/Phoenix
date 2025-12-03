@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Voice Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* Global style */
+    body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #000010, #000015, #000);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #00e0ff, #ff00d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #00f0ff88;
+      z-index: 5;
+    }
+
+    /* Profile icon */
+    .profile-icon {
+      position: fixed;
+      top: 32px;
+      right: 200px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: radial-gradient(circle, #00ffe0 0%, #0077ff 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+      z-index: 5;
+      transition: 0.2s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 1);
+    }
+
+    /* Back button */
+    .back-btn {
+      position: fixed;
+      top: 32px;
+      right: 40px;
+      padding: 10px 28px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #00eaff, #0077ff);
+      color: white;
+      box-shadow: 0 0 20px rgba(0, 150, 255, 0.6);
+      transition: 0.25s ease-in-out;
+      z-index: 5;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(0, 180, 255, 1);
+    }
+
+    /* Bluetooth button */
+    .bluetooth-btn {
+      position: fixed;
+      top: 32px;
+      right: 290px;
+      padding: 10px 20px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #00ffbb, #00b4ff);
+      color: black;
+      box-shadow: 0 0 16px rgba(0, 255, 200, 0.7);
+      z-index: 5;
+      transition: 0.25s;
+    }
+
+    .bluetooth-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 26px rgba(0, 255, 255, 1);
+    }
+
+    /* Core AI UI */
+    #reply {
+      -webkit-text-fill-color: white;
+      color: white;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+      text-align: center;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    button {
+      padding: 12px 30px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #00d9ff, #0072ff);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+      transition: 0.3s ease;
+      margin: 5px;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
+    }
+
+    /* PC IP container */
+    .pc-control-container {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8, 16, 40, 0.85);
+      padding: 20px 30px;
+      border-radius: 22px;
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.18);
+      backdrop-filter: blur(14px);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .pc-control-container input {
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 255, 0.5);
+      background: rgba(0, 0, 40, 0.9);
+      color: #fff;
+      font-size: 0.95rem;
+      width: 200px;
+      outline: none;
+    }
+
+    .pc-control-container input:focus {
+      border-color: #00f5ff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .pc-control-container label {
+      font-size: 0.95rem;
+      color: #bcbcbc;
+    }
+
+    /* CMD Mode toggle */
+    .cmd-mode-toggle {
+      position: fixed;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8, 16, 40, 0.85);
+      padding: 15px 25px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 100, 0, 0.35);
+      box-shadow: 0 0 35px rgba(255, 100, 0, 0.18);
+      backdrop-filter: blur(14px);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .cmd-mode-toggle.active {
+      border-color: rgba(0, 255, 100, 0.7);
+      box-shadow: 0 0 45px rgba(0, 255, 100, 0.4);
+      background: rgba(0, 40, 20, 0.9);
+    }
+
+    .cmd-mode-toggle label {
+      font-size: 0.95rem;
+      color: #bcbcbc;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .cmd-mode-toggle.active label {
+      color: #00ff88;
+      font-weight: 600;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: rgba(100, 100, 100, 0.5);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle-switch.active {
+      background: linear-gradient(90deg, #00ff88, #00cc66);
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(24px);
+    }
+
+    #status {
+      margin-top: 10px;
+      font-size: 0.98rem;
+      color: #9beeff;
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+      font-style: italic;
+      min-height: 1.4em;
+      text-align: center;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 20px #00faff44, 0 0 30px #ff00ff22;
+      }
+
+      to {
+        text-shadow: 0 0 40px #00faffaa, 0 0 60px #ff00ff55;
+      }
+    }
+
+    @keyframes pulse-glow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 234, 255, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(0, 234, 255, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 234, 255, 0);
+      }
+    }
+
+    .phoenix-main-btn {
+      padding: 20px 50px;
+      font-size: 1.5rem;
+      border-radius: 60px;
+      background: linear-gradient(90deg, #00eaff, #0077ff);
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.6);
+      animation: pulse-glow 2s infinite;
+      margin: 30px 0;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .phoenix-main-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #0077ff, #00eaff);
+      box-shadow: 0 0 50px rgba(0, 234, 255, 0.9);
+    }
+
+    .phoenix-main-btn .icon {
+      margin-right: 10px;
+      font-size: 1.8rem;
+    }
+
+    /* Enhanced CMD Mode Toggle */
+    .cmd-mode-toggle {
+      position: fixed;
+      bottom: 140px;
+      /* Moved up slightly */
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8, 16, 40, 0.95);
+      padding: 18px 35px;
+      border-radius: 30px;
+      border: 2px solid rgba(255, 100, 0, 0.6);
+      /* Stronger border */
+      box-shadow: 0 0 40px rgba(255, 100, 0, 0.25);
+      backdrop-filter: blur(14px);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .cmd-mode-toggle.active {
+      border-color: #00ff88;
+      box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+      background: rgba(0, 40, 20, 0.95);
+    }
+
+    .cmd-mode-toggle label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffaa80;
+      text-transform: uppercase;
+    }
+
+    .cmd-mode-toggle.active label {
+      color: #00ff88;
+      text-shadow: 0 0 10px #00ff88;
+    }
+
+    /* Phoenix Mode Toggle */
+    .phoenix-mode-toggle {
+      position: fixed;
+      bottom: 200px;
+      /* Above CMD MODE */
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8, 16, 40, 0.95);
+      padding: 18px 35px;
+      border-radius: 30px;
+      border: 2px solid rgba(255, 0, 180, 0.6);
+      box-shadow: 0 0 40px rgba(255, 0, 180, 0.25);
+      backdrop-filter: blur(14px);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .phoenix-mode-toggle.active {
+      border-color: #ff00aa;
+      box-shadow: 0 0 60px rgba(255, 0, 200, 0.5);
+      background: rgba(40, 0, 40, 0.95);
+    }
+
+    .phoenix-mode-toggle label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ff66c4;
+      text-transform: uppercase;
+    }
+
+    .phoenix-mode-toggle.active label {
+      color: #ff00dd;
+      text-shadow: 0 0 10px #ff00dd;
+    }
+  </style>
+</head>
+
+<body>
+  <header>⚡ PHOENIX</header>
+  <div class="profile-icon" onclick="window.location.href='{{ url_for('settings_page') }}'">👤</div>
+  <button class="bluetooth-btn" onclick="requestBluetooth()">🔵 Connect Bluetooth</button>
+  <button class="back-btn" onclick="window.location.href='{{ url_for('dashboard') }}'">⬅ Back</button>
+  <div id="reply">🤖 Phoenix Online</div>
+  <button id="talkBtn">🎤 Talk to Phoenix</button>
+  <div id="status">Waiting for command...</div>
+  <!-- Phoenix Mode Toggle -->
+  <div class="phoenix-mode-toggle" id="phoenixModeToggle">
+    <label for="phoenixModeSwitch">🔥 PHOENIX MODE</label>
+    <div class="toggle-switch" id="phoenixModeSwitch" onclick="togglePhoenixMode()">
+      <div class="toggle-slider"></div>
+    </div>
+  </div>
+  <!-- CMD Mode Toggle -->
+  <div class="cmd-mode-toggle" id="cmdModeToggle">
+    <label for="cmdModeSwitch">💻 CMD Mode</label>
+    <div class="toggle-switch" id="cmdModeSwitch" onclick="toggleCmdMode()">
+      <div class="toggle-slider"></div>
+    </div>
+  </div>
+  <!-- PC Control Input -->
+  <div class="pc-control-container">
+    <label for="pcIpInput">PC IP:</label>
+    <input type="text" id="pcIpInput" placeholder="192.168.1.100" />
+    <button onclick="savePcIp()">Save IP</button>
+  </div>
+  <script>
+    // CMD Mode state
+    let cmdModeActive = false;
+    function toggleCmdMode() {
+      cmdModeActive = !cmdModeActive;
+      const toggle = document.getElementById('cmdModeToggle');
+      const switchEl = document.getElementById('cmdModeSwitch');
+      if (cmdModeActive) {
+        toggle.classList.add('active');
+        switchEl.classList.add('active');
+        speak('Command mode activated. All voice input will be sent directly to PC command prompt.');
+        document.getElementById('status').textContent = '💻 CMD Mode: ON - Direct command execution';
+      } else {
+        toggle.classList.remove('active');
+        switchEl.classList.remove('active');
+        speak('Command mode deactivated. Returning to normal AI mode.');
+        document.getElementById('status').textContent = '🤖 AI Mode: ON - Normal operation';
+      }
+    }
+    // Bluetooth globals
+    let bleDevice = null, bleServer = null, bleService = null, bleCharacteristic = null;
+    const SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    const CHARACTERISTIC_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    const COMMAND_MAP = { "Forward": "F", "Backward": "B", "Left": "L", "Right": "R", "Stop": "S" };
+    async function requestBluetooth() {
+      if (!navigator.bluetooth) { alert('Bluetooth not supported in this browser.'); return; }
+      try {
+        document.getElementById('status').textContent = 'Requesting Bluetooth device...';
+        const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: [SERVICE_UUID] });
+        bleDevice = device;
+        document.getElementById('status').textContent = 'Connecting to ' + (device.name || 'robot') + '...';
+        bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+        bleServer = await bleDevice.gatt.connect();
+        bleService = await bleServer.getPrimaryService(SERVICE_UUID);
+        bleCharacteristic = await bleService.getCharacteristic(CHARACTERISTIC_UUID);
+        document.getElementById('status').textContent = '✅ Bluetooth connected: ' + (device.name || 'robot');
+      } catch (e) { console.error(e); document.getElementById('status').textContent = '⚠️ Bluetooth connection failed.'; }
+    }
+    function onDisconnected() { bleServer = bleService = bleCharacteristic = null; document.getElementById('status').textContent = '❌ Bluetooth disconnected.'; }
+    async function sendRobotCommand(cmd) {
+      if (!bleCharacteristic) { document.getElementById('status').textContent = '⚠️ Connect Bluetooth first.'; return; }
+      const short = COMMAND_MAP[cmd] || cmd.charAt(0);
+      try {
+        const enc = new TextEncoder();
+        await bleCharacteristic.writeValue(enc.encode(short));
+        document.getElementById('status').textContent = `Command: ${cmd} ⚡`;
+      } catch (e) { console.error(e); document.getElementById('status').textContent = '⚠️ Failed to send command.'; }
+    }
+    // PC IP storage
+    function savePcIp() {
+      const ip = document.getElementById('pcIpInput').value.trim();
+      if (ip) { localStorage.setItem('phoenixPcIp', ip); speak(`PC IP address saved as ${ip}`); document.getElementById('status').textContent = `✅ PC IP saved: ${ip}`; }
+      else { speak('Please enter a valid IP address'); }
+    }
+    function getPcIp() { return localStorage.getItem('phoenixPcIp') || ''; }
+    window.addEventListener('DOMContentLoaded', () => { const ip = getPcIp(); if (ip) document.getElementById('pcIpInput').value = ip; });
+    // Map voice to PC commands
+    function mapPcCommand(txt) {
+      const map = { "open chrome": "start chrome", "open firefox": "start firefox", "open notepad": "start notepad", "open calculator": "start calc", "open paint": "start mspaint", "open cmd": "start cmd", "open powershell": "start powershell", "shutdown": "shutdown /s /t 0", "restart": "shutdown /r /t 0", "lock": "rundll32.exe user32.dll,LockWorkStation" };
+      for (const [k, v] of Object.entries(map)) if (txt.includes(k)) return v;
+      if (txt.startsWith('open ')) return 'start ' + txt.replace('open ', '').trim();
+      return txt;
+    }
+    async function sendPcCommand(command) {
+      const ip = getPcIp();
+      if (!ip) { speak('Please set the PC IP address first'); document.getElementById('status').textContent = '⚠️ Please set PC IP address first'; return; }
+      try {
+        const res = await fetch('/send_pc_command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip, command }) });
+        const data = await res.json();
+        if (data.success) { speak(`Command sent to PC: ${command}`); document.getElementById('status').textContent = `✅ Command sent: ${command}`; }
+        else { speak(`Failed to send command: ${data.error}`); document.getElementById('status').textContent = `⚠️ Error: ${data.error}`; }
+      } catch (e) { console.error(e); speak('Failed to send command to PC'); document.getElementById('status').textContent = '⚠️ Failed to send command'; }
+    }
+    // Voice assistant
+    let phoenixMemory = JSON.parse(localStorage.getItem('phoenixMemory')) || {};
+    function saveMemory() { localStorage.setItem('phoenixMemory', JSON.stringify(phoenixMemory)); }
+    const phoenixUser = '{{ username }}';
+    window.speechSynthesis.onvoiceschanged = () => { console.log(speechSynthesis.getVoices()); };
+    let recognition; let listening = false;
+    if ('webkitSpeechRecognition' in window) recognition = new webkitSpeechRecognition();
+    else if ('SpeechRecognition' in window) recognition = new SpeechRecognition();
+    else document.getElementById('reply').innerText = '⚠️ Speech recognition not supported.';
+    if (recognition) {
+      recognition.continuous = true; recognition.interimResults = false; recognition.lang = 'en-US';
+      recognition.onresult = async (e) => {
+        window.speechSynthesis.cancel();
+        const text = e.results[e.results.length - 1][0].transcript.trim().toLowerCase();
+        console.log('Heard:', text);
+        // CMD mode activation phrases
+        if (text.includes('enter command mode') || text.includes('activate command mode') || text.includes('enable command mode')) { if (!cmdModeActive) toggleCmdMode(); return; }
+        if (text.includes('exit command mode') || text.includes('deactivate command mode') || text.includes('disable command mode')) { if (cmdModeActive) toggleCmdMode(); return; }
+        // If CMD mode active, send directly to PC
+        if (cmdModeActive) { await sendPcCommand(text); document.getElementById('reply').innerText = `💻 CMD: ${text}`; return; }
+        // Robot controls
+        // if (text.includes('move forward') || text.includes('go forward') || text.includes('forward')) { await sendRobotCommand('Forward'); speak('Moving forward'); document.getElementById('reply').innerText = '🤖 Phoenix: Moving robot forward'; return; }
+        // if (text.includes('move backward') || text.includes('go backward') || text.includes('backward') || text.includes('go back')) { await sendRobotCommand('Backward'); speak('Moving backward'); document.getElementById('reply').innerText = '🤖 Phoenix: Moving robot backward'; return; }
+        // if (text.includes('turn left') || text.includes('go left') || text.includes('left')) { await sendRobotCommand('Left'); speak('Turning left'); document.getElementById('reply').innerText = '🤖 Phoenix: Turning robot left'; return; }
+        // if (text.includes('turn right') || text.includes('go right') || text.includes('right')) { await sendRobotCommand('Right'); speak('Turning right'); document.getElementById('reply').innerText = '🤖 Phoenix: Turning robot right'; return; }
+        // if (text.includes('stop robot') || text.includes('robot stop') || (text.includes('stop') && text.includes('robot'))) { await sendRobotCommand('Stop'); speak('Robot stopped'); document.getElementById('reply').innerText = '🤖 Phoenix: Robot stopped'; return; }
+        // ------------------------------------------
+        // 🔥 PHOENIX MODE (Robot-Only Mode)
+        // ------------------------------------------
+        if (phoenixModeActive) {
+
+          // Movement: forward
+          if (text.includes('forward')) {
+            await sendRobotCommand('Forward');
+            document.getElementById('reply').innerText = '🔥 Phoenix Mode: Robot Forward';
+            speak('Moving forward');
+            return;
+          }
+
+          // Movement: backward
+          if (text.includes('back') || text.includes('backward')) {
+            await sendRobotCommand('Backward');
+            document.getElementById('reply').innerText = '🔥 Phoenix Mode: Robot Backward';
+            speak('Moving backward');
+            return;
+          }
+
+          // Movement: left
+          if (text.includes('left')) {
+            await sendRobotCommand('Left');
+            document.getElementById('reply').innerText = '🔥 Phoenix Mode: Robot Left';
+            speak('Turning left');
+            return;
+          }
+
+          // Movement: right
+          if (text.includes('right')) {
+            await sendRobotCommand('Right');
+            document.getElementById('reply').innerText = '🔥 Phoenix Mode: Robot Right';
+            speak('Turning right');
+            return;
+          }
+
+          // Stop
+          if (text.includes('stop')) {
+            await sendRobotCommand('Stop');
+            document.getElementById('reply').innerText = '🔥 Phoenix Mode: Robot Stop';
+            speak('Stopping robot');
+            return;
+          }
+
+          // Unknown command inside phoenix mode
+          document.getElementById('reply').innerText = '⚠ Phoenix Mode: Only robot movement commands allowed';
+          speak('Only robot commands are allowed in phoenix mode');
+          return;
+        }
+
+        // PC commands
+        if (text.includes('open ') || text.includes('start ') || text.includes('launch ')) {
+          const pcCmd = mapPcCommand(text);
+          await sendPcCommand(pcCmd);
+          document.getElementById('reply').innerText = `🤖 Phoenix: Sending command to PC: ${pcCmd}`;
+          return;
+        }
+        if (text.includes('shutdown') || text.includes('shut down')) { await sendPcCommand('shutdown /s /t 0'); speak('Sending shutdown command'); document.getElementById('reply').innerText = '🤖 Phoenix: Sending shutdown command'; return; }
+        if (text.includes('restart') || text.includes('reboot')) { await sendPcCommand('shutdown /r /t 0'); speak('Sending restart command'); document.getElementById('reply').innerText = '🤖 Phoenix: Sending restart command'; return; }
+        if (text.includes('lock') && text.includes('pc')) { await sendPcCommand('rundll32.exe user32.dll,LockWorkStation'); speak('Locking PC'); document.getElementById('reply').innerText = '🤖 Phoenix: Locking PC'; return; }
+        // Memory commands
+        if (text.includes('tell my name') || text.includes('what is my name') || text.includes("what's my name")) {
+          const msg = phoenixUser ? `Your name is ${phoenixUser}.` : 'I don\'t have your name yet.'; speak(msg); document.getElementById('reply').innerText = '🤖 Phoenix: ' + msg; return;
+        }
+        if (text.startsWith('my ') && text.includes(' is ')) {
+          const before = text.split(' is ')[0]; const val = text.split(' is ')[1]; const key = before.replace('my ', '').replace(/ /g, '_'); phoenixMemory[key] = val; saveMemory(); const msg = `Got it. I will remember your ${key.replace('_', ' ')} is ${val}.`; speak(msg); document.getElementById('reply').innerText = '🤖 Phoenix: ' + msg; return;
+        }
+        if (text.startsWith('what is my ')) {
+          const key = text.replace('what is my ', '').replace(/ /g, '_'); if (phoenixMemory[key]) { const msg = `Your ${key.replace('_', ' ')} is ${phoenixMemory[key]}.`; speak(msg); document.getElementById('reply').innerText = '🤖 Phoenix: ' + msg; } else { const msg = 'I don\'t have that information yet.'; speak(msg); document.getElementById('reply').innerText = '🤖 Phoenix: ' + msg; } return;
+        }
+        // Control commands
+        if (text.includes('stop phoenix')) { window.speechSynthesis.cancel(); document.getElementById('reply').innerText = '🛑 Phoenix stopped speaking but still listening.'; return; }
+        if (text.includes('exit phoenix')) {
+          window.speechSynthesis.cancel();
+          const exitMsg = 'Shutting down. Phoenix going offline.';
+          document.getElementById('reply').innerText = '🤖 Phoenix: ' + exitMsg;
+          speak(exitMsg);
+          setTimeout(() => {
+            recognition.stop();
+            listening = false;
+            const btn = document.getElementById('talkBtn');
+            btn.innerHTML = '<span class="icon">🎙️</span> ENABLE PHOENIX AI';
+            btn.style.background = ''; // Reset to CSS default
+            btn.style.boxShadow = '';
+          }, 1500);
+          return;
+        }
+        // Default AI response
+        document.getElementById('reply').innerText = '🗣️ You: ' + text;
+        setTimeout(async () => { try { const res = await fetch(`/ask_text?text=${encodeURIComponent(text)}`); const data = await res.json(); document.getElementById('reply').innerText = '🤖 Phoenix: ' + data.reply; speak(data.reply); } catch (err) { console.error('Backend error:', err); document.getElementById('reply').innerText = '⚠️ Error: ' + err.message; } }, 100);
+      };
+      recognition.onerror = e => { if (e.error === 'not-allowed') document.getElementById('reply').innerText = '⚠️ Microphone access denied!'; };
+      recognition.onend = () => { if (listening) recognition.start(); };
+    }
+    document.getElementById('talkBtn').addEventListener('click', () => {
+      if (!recognition) return;
+      if (!listening) {
+        listening = true;
+        recognition.start();
+        speak('Phoenix online. I am listening.');
+        document.getElementById('reply').innerText = '🎧 Listening... say \'stop phoenix\' or \'exit phoenix\'.';
+        const btn = document.getElementById('talkBtn');
+        btn.innerHTML = '<span class="icon">🛑</span> LISTENING...';
+        btn.style.background = 'linear-gradient(90deg, #ff005e, #ff4da6)';
+        btn.style.boxShadow = '0 0 40px rgba(255, 0, 94, 0.6)';
+      }
+    });
+    function speak(txt) { const synth = window.speechSynthesis; let voices = synth.getVoices(); if (!voices.length) { synth.onvoiceschanged = () => speak(txt); return; } const utter = new SpeechSynthesisUtterance(txt); utter.rate = 1.0; utter.pitch = 0.5; utter.volume = 1; utter.voice = voices.find(v => v.name.includes('Google UK English Male')) || voices.find(v => v.name.includes('Google US English')) || voices.find(v => v.name.includes('English')) || voices[0]; synth.cancel(); synth.speak(utter); }
+  </script>
+</body>
+
+</html>

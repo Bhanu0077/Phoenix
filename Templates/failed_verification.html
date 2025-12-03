@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Failed</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #24c6dc, #514a9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-rise {
+            background: linear-gradient(to right, #d38312, #a83279);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-header {
+            background: linear-gradient(90deg, #00C6FF 0%, #0072FF 50%, #C427FB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .box-shadow-glow {
+            box-shadow: 0 0 15px 3px rgba(0, 198, 255, 0.2), 0 0 30px 6px rgba(0, 114, 255, 0.1);
+        }
+        .button-shadow-glow {
+            box-shadow: 0 0 15px 2px rgba(0, 198, 255, 0.35);
+        }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00c6ff", // This is the main bright blue color for the button
+              "background-light": "#f0f2f5", // A very light gray for light mode
+              "background-dark": "#0c0a1a", // Deep dark blue from the screenshot
+            },
+            fontFamily: {
+              display: ["Chakra Petch", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem", // 12px
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-700 dark:text-gray-300 antialiased">
+<div class="relative min-h-screen w-full flex flex-col items-center justify-between p-6 overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vh] bg-indigo-900/40 dark:bg-indigo-900/50 rounded-full blur-3xl pointer-events-none opacity-50 dark:opacity-100"></div>
+<header class="w-full max-w-6xl mx-auto z-10">
+<div class="flex items-center space-x-3">
+<svg class="h-8 w-8 text-cyan-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5.293l6.293-6.293a1 1 0 111.414 1.414L13.414 8.707H18a1 1 0 110 2h-4.586l6.293 6.293a1 1 0 11-1.414 1.414L12 11.707V17a1 1 0 11-2 0v-5.293l-6.293 6.293a1 1 0 01-1.414-1.414L8.586 10.293H4a1 1 0 110-2h4.586L2.293 2.293a1 1 0 011.414-1.414L10 7.293V2a1 1 0 011.3-.954z" fill-rule="evenodd"></path>
+</svg>
+<h1 class="text-3xl font-bold tracking-[0.2em] text-gradient-header">PHOENIX</h1>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center w-full z-10 px-4">
+<div class="w-full max-w-md p-8 md:p-10 space-y-8 bg-gray-100/80 dark:bg-black/40 backdrop-blur-sm border border-cyan-400/20 rounded-2xl box-shadow-glow">
+<div class="text-center">
+<h2 class="text-4xl font-bold tracking-widest uppercase">
+<span class="text-gray-600 dark:text-gray-300">VERIFICATION </span>
+<span class="text-gradient-rise">FAILED</span>
+</h2>
+<p class="mt-4 text-gray-600 dark:text-gray-400">
+                        Your verification link has expired or is invalid.
+                    </p>
+</div>
+<form action="#" class="space-y-8" method="POST">
+<div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-bold text-white bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all duration-300 ease-in-out transform hover:scale-105 button-shadow-glow" type="submit">
+                            Resend Verification Email
+                        </button>
+</div>
+</form>
+</div>
+</main>
+<footer class="w-full max-w-6xl mx-auto text-center text-xs text-gray-400 dark:text-gray-500 z-10">
+<p>© 2025 Phoenix AI • Evolve Beyond</p>
+</footer>
+</div>
+
+</body></html>
