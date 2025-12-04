@@ -611,12 +611,18 @@
       recognition.onerror = e => { if (e.error === 'not-allowed') document.getElementById('reply').innerText = '⚠️ Microphone access denied!'; };
       recognition.onend = () => { if (listening) recognition.start(); };
     }
-    document.getElementById('talkBtn').addEventListener('click', () => {
-      if (!recognition) return;
-      if (!listening) {
-        listening = true;
-        recognition.start();
-        speak('Phoenix online. I am listening.');
+    document.getElementById("talkBtn").addEventListener("click", () => {
+  if (!recognition) return;
+
+  if (!listening) {
+    listening = true;
+    recognition.start();
+
+    const greeting = phoenixUser
+      ? `Hello ${phoenixUser}, Phoenix online and ready. I am listening.`
+      : "Phoenix online and ready. I am listening.";
+
+    speak(greeting);
         document.getElementById('reply').innerText = '🎧 Listening... say \'stop phoenix\' or \'exit phoenix\'.';
         const btn = document.getElementById('talkBtn');
         btn.innerHTML = '<span class="icon">🛑</span> LISTENING...';
