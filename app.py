@@ -108,7 +108,7 @@ def init_db():
 def generate_code(length: int = 6) -> str:
     """Generate a numeric code of given length."""
     return "".join(str(random.randint(0, 9)) for _ in range(length))
-#this is the build mail verifaction
+# Hello Sushath
 
 def build_verification_email(to_email: str, subject: str, code: str) -> EmailMessage:
     """
