@@ -42,7 +42,7 @@ app = Flask(__name__, template_folder="Templates")
 app.secret_key = PHOENIX_SECRET_KEY
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key="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"
 )
 
 

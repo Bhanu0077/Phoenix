@@ -1,37 +1,91 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Code - Phoenix AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<body style="font-family: 'Poppins', sans-serif;" class="dark">
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Verification Code - Phoenix AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <style>
-    .gradient-text {
-      background: linear-gradient(to right, #25C6F4, #D946EF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
+<style>
+  body, p, span, input, button {
+  color: #d6eaff !important;
+}
 
-    .gradient-glow {
-      box-shadow: 0 0 15px 4px rgba(37, 198, 244, 0.25), 0 0 5px 1px rgba(217, 70, 239, 0.2);
-    }
+  /* Phoenix Gradient Text */
+  .gradient-text {
+    background: linear-gradient(90deg, #00eaff, #ff00a6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-    .input-glow:focus {
-      box-shadow: 0 0 8px 2px rgba(37, 198, 244, 0.3);
-      outline: none;
-      border-color: rgba(37, 198, 244, 0.5);
-    }
+  /* Phoenix Glow */
+  .gradient-glow {
+    box-shadow:
+      0 0 25px rgba(0, 234, 255, 0.25),
+      0 0 15px rgba(255, 0, 166, 0.18);
+  }
 
-    .button-glow {
-      box-shadow: 0 0 20px 5px rgba(37, 198, 244, 0.3);
-    }
-  </style>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-  <script>
+  /* Input Glow */
+  .input-glow:focus {
+    border-color: #00eaff;
+    box-shadow:
+      0 0 10px rgba(0, 234, 255, 0.4),
+      0 0 20px rgba(0, 255, 224, 0.2);
+    outline: none;
+  }
+
+  /* Button Glow */
+  .button-glow {
+    box-shadow:
+      0 0 20px rgba(0, 234, 255, 0.4),
+      0 0 40px rgba(255, 0, 166, 0.25);
+  }
+
+  /* Phoenix Frosted Glass Card */
+  .phoenix-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 234, 255, 0.15);
+  backdrop-filter: blur(14px);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow:
+    0 0 25px rgba(0, 234, 255, 0.15),
+    0 0 40px rgba(255, 0, 166, 0.15);
+}
+
+
+  /* Inputs */
+  .code-input {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(0, 234, 255, 0.25) !important;
+    color: #e0faff !important;
+  }
+
+  .code-input:hover {
+    border-color: #00eaff;
+  }
+
+  /* Background Override */
+  body {
+    background: radial-gradient(circle at top, #000015, #000010, #000000) !important;
+    color: #d6eaff !important;
+    font-family: "Poppins", sans-serif;
+  }
+
+  /* Title Font */
+  h1, header span {
+    font-family: "Orbitron", sans-serif !important;
+    letter-spacing: 3px;
+  }
+
+  /* Footer */
+  footer p {
+    color: #445 !important;
+  }
+</style>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
     tailwind.config = {
       darkMode: "class",
       theme: {
@@ -52,123 +106,96 @@
     };
   </script>
 </head>
-
 <body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-300 antialiased">
-  <div class="flex flex-col min-h-screen">
-    <header class="absolute top-0 left-0 w-full p-8">
-      <div class="flex items-center space-x-2">
-        <svg class="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" fill="none"></path>
-          <path
-            d="M10.63 1.63L3.13 9.13c-.8.8-.23 2.17 0.87 2.17H9v5c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-5h4c1.1 0 1.67-1.37.87-2.17l-7.5-7.5c-.49-.49-1.28-.49-1.77 0z">
-          </path>
-        </svg>
-        <span class="text-2xl font-bold tracking-wider gradient-text">PHOENIX</span>
-      </div>
-    </header>
-    <main class="flex-grow flex items-center justify-center p-4">
-      <div class="w-full max-w-md">
-        <div
-          class="bg-white/5 dark:bg-gray-900/40 backdrop-blur-sm border border-white/10 dark:border-gray-700/50 rounded-2xl p-8 pt-10 shadow-lg gradient-glow">
-          <div class="text-center">
-            <h1 class="text-3xl font-bold tracking-wider mb-2">
-              <span class="gradient-text">ENTER VERIFICATION CODE</span>
-            </h1>
-            <p class="text-gray-500 dark:text-gray-400 mb-8">Enter the 6-digit code sent to <strong>{{ email_sent_to
-                }}</strong> to continue.</p>
-          </div>
-          {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-          <div class="space-y-2 mb-4">
-            {% for category, message in messages %}
-            <div class="px-4 py-3 rounded-lg border border-white/20 text-sm
+<div class="flex flex-col min-h-screen">
+<header class="absolute top-0 left-0 w-full p-8">
+  <div class="flex items-center space-x-3">
+    <span class="text-3xl font-bold tracking-widest gradient-text"
+          style="font-family: 'Orbitron', sans-serif;">
+      
+  ⚡ PHOENIX
+    </span>
+  </div>
+</header>
+<main class="flex-grow flex items-center justify-center p-4">
+<div class="w-full max-w-md">
+<div class="bg-white/5 dark:bg-gray-900/40 backdrop-blur-sm border border-white/10 dark:border-gray-700/50 rounded-2xl p-8 pt-10 shadow-lg gradient-glow">
+<div class="text-center">
+<h1 class="text-3xl font-bold tracking-wider mb-2">
+<span class="gradient-text">ENTER VERIFICATION CODE</span>
+</h1>
+<p class="text-gray-500 dark:text-gray-400 mb-8">Enter the 6-digit code sent to your device to continue.</p>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="space-y-2 mb-4">
+      {% for category, message in messages %}
+        <div class="px-4 py-3 rounded-lg border border-white/20 text-sm
                     {% if category == 'success' %}bg-emerald-500/10 text-emerald-300
                     {% elif category == 'error' %}bg-rose-500/10 text-rose-300
                     {% elif category == 'warning' %}bg-amber-500/10 text-amber-200
                     {% else %}bg-cyan-500/10 text-cyan-200{% endif %}">
-              {{ message }}
-            </div>
-            {% endfor %}
-          </div>
-          {% endif %}
-          {% endwith %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
-          <form action="{{ url_for('verify_signup') }}" class="space-y-8" method="POST" id="verificationForm">
-            <input type="hidden" name="code" id="codeInput" />
-            <div class="flex justify-center space-x-2 sm:space-x-3">
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-              <input
-                class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow"
-                maxlength="1" required="" type="text" />
-            </div>
-            <button
-              class="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity duration-300 button-glow"
-              type="submit">
+<form action="{{ url_for('verify_signup') }}" class="space-y-8" method="POST" id="verificationForm">
+<input type="hidden" name="code" id="codeInput" />
+<div class="flex justify-center space-x-2 sm:space-x-3">
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+<input class="code-input w-12 h-12 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-semibold bg-gray-800/50 dark:bg-gray-800/70 border border-gray-600 dark:border-gray-700 rounded-lg text-white transition-all duration-200 input-glow" maxlength="1" required="" type="text"/>
+</div>
+<button class="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity duration-300 button-glow" type="submit">
               Verify
             </button>
-          </form>
-          <div class="text-center mt-6 text-sm">
-            <p class="text-gray-500 dark:text-gray-400">
-              Didn't receive the code?
-            <form action="{{ url_for('resend_verification') }}" method="POST" style="display:inline;">
-              <button type="submit" class="font-medium text-primary hover:text-cyan-300"
-                style="background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;">Resend
-                code</button>
-            </form>
-            or <a class="font-medium text-primary hover:text-cyan-300" href="{{ url_for('signup') }}">Restart signup</a>
-            </p>
-            <p class="text-gray-600 dark:text-gray-500 mt-2">The code expires in 10 minutes.</p>
-          </div>
-        </div>
-      </div>
-    </main>
-    <footer class="w-full text-center p-6">
-      <p class="text-sm text-gray-500 dark:text-gray-600">© 2025 Phoenix AI • Evolve Beyond</p>
-    </footer>
-  </div>
+</form>
+<div class="text-center mt-6 text-sm">
+<p class="text-gray-500 dark:text-gray-400">
+              Didn’t receive the code? <a class="font-medium text-primary hover:text-cyan-300" href="{{ url_for('signup') }}">Restart signup</a>
+</p>
+<p class="text-gray-600 dark:text-gray-500 mt-2">The code expires in 5 minutes.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full text-center p-6">
+<p class="text-sm text-gray-500 dark:text-gray-600">© 2025 Phoenix AI • Evolve Beyond</p>
+</footer>
+</div>
 
-  <script>
-    const inputs = Array.from(document.querySelectorAll('.code-input'));
-    const form = document.getElementById('verificationForm');
-    const hidden = document.getElementById('codeInput');
+<script>
+  const inputs = Array.from(document.querySelectorAll('.code-input'));
+  const form = document.getElementById('verificationForm');
+  const hidden = document.getElementById('codeInput');
 
-    function updateHidden() {
-      hidden.value = inputs.map(input => input.value || '').join('');
-    }
+  function updateHidden() {
+    hidden.value = inputs.map(input => input.value || '').join('');
+  }
 
-    inputs.forEach((input, idx) => {
-      input.addEventListener('input', (event) => {
-        const value = event.target.value.replace(/\D/g, '');
-        event.target.value = value.slice(-1);
-        if (value && idx < inputs.length - 1) {
-          inputs[idx + 1].focus();
-        }
-        updateHidden();
-      });
-
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Backspace' && !event.target.value && idx > 0) {
-          inputs[idx - 1].focus();
-        }
-      });
+  inputs.forEach((input, idx) => {
+    input.addEventListener('input', (event) => {
+      const value = event.target.value.replace(/\D/g, '');
+      event.target.value = value.slice(-1);
+      if (value && idx < inputs.length - 1) {
+        inputs[idx + 1].focus();
+      }
+      updateHidden();
     });
 
-    form.addEventListener('submit', updateHidden);
-  </script>
-</body>
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Backspace' && !event.target.value && idx > 0) {
+        inputs[idx - 1].focus();
+      }
+    });
+  });
 
-</html>
+  form.addEventListener('submit', updateHidden);
+</script>
+</body></html>

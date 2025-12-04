@@ -10,17 +10,18 @@
   <style>
     /* Global style */
     body {
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-      background: radial-gradient(circle at center, #000010, #000015, #000);
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      min-height: 100vh;     /* Allow page to grow */
+  height: auto;          /* Content decides height */
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at center, #000010, #000015, #000);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;   /* Move content UP so it looks natural */
+  overflow-y: auto;    
     }
 
     /* Header */
@@ -91,7 +92,7 @@
     .bluetooth-btn {
       position: fixed;
       top: 32px;
-      right: 290px;
+      right: 260px;
       padding: 10px 20px;
       border-radius: 40px;
       border: none;
@@ -112,16 +113,28 @@
 
     /* Core AI UI */
     #reply {
-      -webkit-text-fill-color: white;
-      color: white;
-      font-size: 1.6rem;
-      margin-bottom: 20px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 2px;
-      text-align: center;
-      max-width: 80%;
-      word-wrap: break-word;
+       position: absolute;
+    top: 90%;                /* move text DOWN */
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-text-fill-color: white;
+    color: white;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    text-align: center;
+    max-width: 80%;
+    word-wrap: break-word;
+    z-index: 9999;
     }
+    #talkBtn {
+    position: absolute;
+    top:72%;       /* PUSH BUTTON DOWN */
+    transform: translateX(-50%);
+    z-index: 9999; 
+    left: 50%;
+}
 
     button {
       padding: 12px 30px;
@@ -145,12 +158,12 @@
 
     /* PC IP container */
     .pc-control-container {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
+      position:absolute;
+      bottom: 20%;
+      left:20%;
       transform: translateX(-50%);
       background: rgba(8, 16, 40, 0.85);
-      padding: 20px 30px;
+      padding: 1px 1px; ;
       border-radius: 22px;
       border: 1px solid rgba(0, 255, 255, 0.35);
       box-shadow: 0 0 35px rgba(0, 255, 255, 0.18);
@@ -183,71 +196,104 @@
     }
 
     /* CMD Mode toggle */
-    .cmd-mode-toggle {
-      position: fixed;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(8, 16, 40, 0.85);
-      padding: 15px 25px;
-      border-radius: 22px;
-      border: 1px solid rgba(255, 100, 0, 0.35);
-      box-shadow: 0 0 35px rgba(255, 100, 0, 0.18);
-      backdrop-filter: blur(14px);
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: all 0.3s ease;
-    }
+   .mode-row {
+    position: absolute;
+    top:50%;            /* Adjust row position */
+    width: 80%;
+    
+    display: flex;
+    justify-content: space-between; /* LEFT & RIGHT */
+    align-items: center;
+    z-index: 5;
+}
 
-    .cmd-mode-toggle.active {
-      border-color: rgba(0, 255, 100, 0.7);
-      box-shadow: 0 0 45px rgba(0, 255, 100, 0.4);
-      background: rgba(0, 40, 20, 0.9);
-    }
+/* Phoenix Mode (LEFT SIDE) */
+.phoenix-mode-toggle {
+    background: rgba(8, 16, 40, 0.95);
+    padding: 18px 35px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 0, 180, 0.6);
+    box-shadow: 0 0 40px rgba(255, 0, 180, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s ease;
+    bottom:70px;
+    left:5%;
+}
+.phoenix-mode-toggle.active {
+    border-color: #ff00aa;
+    box-shadow: 0 0 60px rgba(255, 0, 200, 0.5);
+    background: rgba(40, 0, 40, 0.95);
+}
+.phoenix-mode-toggle label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ff66c4;
+    text-transform: uppercase;
+}
+.phoenix-mode-toggle.active label {
+    color: #ff00dd;
+    text-shadow: 0 0 10px #ff00dd;
+}
 
-    .cmd-mode-toggle label {
-      font-size: 0.95rem;
-      color: #bcbcbc;
-      cursor: pointer;
-      user-select: none;
-    }
+/* CMD Mode (RIGHT SIDE) */
+.cmd-mode-toggle {
+    background: rgba(8, 16, 40, 0.95);
+    padding: 18px 35px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 100, 0, 0.6);
+    box-shadow: 0 0 40px rgba(255, 100, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s ease;
+}
+.cmd-mode-toggle.active {
+    border-color: #00ff88;
+    box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+    background: rgba(0, 40, 20, 0.95);
+}
+.cmd-mode-toggle label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffaa80;
+    text-transform: uppercase;
+}
+.cmd-mode-toggle.active label {
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+}
 
-    .cmd-mode-toggle.active label {
-      color: #00ff88;
-      font-weight: 600;
-    }
+/* Switch Style (same for both toggles) */
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: rgba(100, 100, 100, 0.5);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.toggle-switch.active {
+    background: linear-gradient(90deg, #00ff88, #00cc66);
+}
+.toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.toggle-switch.active .toggle-slider {
+    transform: translateX(24px);
+}
 
-    .toggle-switch {
-      position: relative;
-      width: 50px;
-      height: 26px;
-      background: rgba(100, 100, 100, 0.5);
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .toggle-switch.active {
-      background: linear-gradient(90deg, #00ff88, #00cc66);
-    }
-
-    .toggle-slider {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.3s;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    .toggle-switch.active .toggle-slider {
-      transform: translateX(24px);
-    }
 
     #status {
       margin-top: 10px;
@@ -309,83 +355,155 @@
     }
 
     /* Enhanced CMD Mode Toggle */
-    .cmd-mode-toggle {
-      position: fixed;
-      bottom: 140px;
-      /* Moved up slightly */
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(8, 16, 40, 0.95);
-      padding: 18px 35px;
-      border-radius: 30px;
-      border: 2px solid rgba(255, 100, 0, 0.6);
-      /* Stronger border */
-      box-shadow: 0 0 40px rgba(255, 100, 0, 0.25);
-      backdrop-filter: blur(14px);
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: all 0.3s ease;
-    }
+    
+    /* ==============================
+   SUPER REALISTIC PHOENIX ROBOT
+================================*/
 
-    .cmd-mode-toggle.active {
-      border-color: #00ff88;
-      box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
-      background: rgba(0, 40, 20, 0.95);
-    }
+.phoenix-section {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .cmd-mode-toggle label {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #ffaa80;
-      text-transform: uppercase;
-    }
+.phoenix-robot {
+  position: relative;
+  width: 300px;     /* was 380px */
+  height: 360px;
+  transform: translateY(30px);
+}
 
-    .cmd-mode-toggle.active label {
-      color: #00ff88;
-      text-shadow: 0 0 10px #00ff88;
-    }
+.robot-aura {
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 130%;
+  background: radial-gradient(circle, #00eaff33, #00112200 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: pulseAura 4s infinite ease-in-out;
+}
 
-    /* Phoenix Mode Toggle */
-    .phoenix-mode-toggle {
-      position: fixed;
-      bottom: 200px;
-      /* Above CMD MODE */
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(8, 16, 40, 0.95);
-      padding: 18px 35px;
-      border-radius: 30px;
-      border: 2px solid rgba(255, 0, 180, 0.6);
-      box-shadow: 0 0 40px rgba(255, 0, 180, 0.25);
-      backdrop-filter: blur(14px);
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: all 0.3s ease;
-    }
+@keyframes pulseAura {
+  0%,100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
 
-    .phoenix-mode-toggle.active {
-      border-color: #ff00aa;
-      box-shadow: 0 0 60px rgba(255, 0, 200, 0.5);
-      background: rgba(40, 0, 40, 0.95);
-    }
+.robot-head {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 78%;
+  height: 55%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 20%, #0a1740, #000012);
+  border-radius: 50% 50% 45% 45%;
+  box-shadow: 0 0 40px #00c8ff44 inset, 0 0 45px #009dff33;
+}
 
-    .phoenix-mode-toggle label {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #ff66c4;
-      text-transform: uppercase;
-    }
+.robot-face {
+  position: absolute;
+  top: 33%;
+  left: 50%;
+  width: 60%;
+  height: 32%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #06142e, #000814);
+  border-radius: 30px;
+  box-shadow: 0 0 25px #00d0ff55 inset, 0 0 40px #00c8ff55;
+}
 
-    .phoenix-mode-toggle.active label {
-      color: #ff00dd;
-      text-shadow: 0 0 10px #ff00dd;
-    }
+.robot-cheek {
+  position: absolute;
+  top: 44%;
+  width: 22%;
+  height: 10%;
+  background: linear-gradient(90deg, #00eaff44, #00fff322);
+  border-radius: 20px;
+  filter: blur(5px);
+}
+.robot-cheek.left { left: 12%; }
+.robot-cheek.right { right: 12%; }
+
+.robot-eyes-up {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 52%;
+  height: 22%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+}
+
+.robot-eye {
+  width: 40%;
+  position: relative;
+}
+
+.eye-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00eaff66, transparent 60%);
+  filter: blur(8px);
+  position: absolute;
+  top: 0;
+}
+
+.eye-core {
+  width: 62%;
+  height: 62%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #9ee8ff, #00c8ff);
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 18%;
+  z-index: 2;
+  filter: drop-shadow(0 0 14px #00eaff);
+  transition: 0.15s linear;
+}
+
+.eye-lid {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  background: #020b3a;
+  border-radius: 50%;
+  transform-origin: top;
+  transform: scaleY(0);
+  z-index: 5;
+}
+
+@keyframes blink {
+  0% { transform: scaleY(0); }
+  40% { transform: scaleY(1); }
+  60% { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+
+.robot-core {
+  position: absolute;
+  bottom: 9%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 14px;
+  background: #00eaff;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #00eaff, 0 0 30px #009dff;
+  animation: corePulse 2s infinite ease-in-out;
+}
+
+@keyframes corePulse {
+  0%,100% { transform: translateX(-50%) scale(1); opacity: .7; }
+  50% { transform: translateX(-50%) scale(1.22); opacity: 1; }
+}
+
   </style>
 </head>
 
@@ -394,32 +512,70 @@
   <div class="profile-icon" onclick="window.location.href='{{ url_for('settings_page') }}'">👤</div>
   <button class="bluetooth-btn" onclick="requestBluetooth()">🔵 Connect Bluetooth</button>
   <button class="back-btn" onclick="window.location.href='{{ url_for('dashboard') }}'">⬅ Back</button>
-  <div id="reply">🤖 Phoenix Online</div>
+  <div id="reply"></div>
   <button id="talkBtn">🎤 Talk to Phoenix</button>
   <div id="status">Waiting for command...</div>
   <!-- Phoenix Mode Toggle -->
-  <div class="phoenix-mode-toggle" id="phoenixModeToggle">
-    <label for="phoenixModeSwitch">🔥 PHOENIX MODE</label>
-    <div class="toggle-switch" id="phoenixModeSwitch" onclick="togglePhoenixMode()">
-      <div class="toggle-slider"></div>
+  <div class="mode-row">
+
+    <!-- Phoenix Mode Toggle (LEFT) -->
+    <div class="phoenix-mode-toggle" id="phoenixModeToggle">
+        <label for="phoenixModeSwitch">🔥 PHOENIX MODE</label>
+        <div class="toggle-switch" id="phoenixModeSwitch" onclick="togglePhoenixMode()">
+            <div class="toggle-slider"></div>
+        </div>
     </div>
-  </div>
-  <!-- CMD Mode Toggle -->
-  <div class="cmd-mode-toggle" id="cmdModeToggle">
-    <label for="cmdModeSwitch">💻 CMD Mode</label>
-    <div class="toggle-switch" id="cmdModeSwitch" onclick="toggleCmdMode()">
-      <div class="toggle-slider"></div>
+
+    <!-- CMD Mode Toggle (RIGHT) -->
+    <div class="cmd-mode-toggle" id="cmdModeToggle">
+        <label for="cmdModeSwitch">💻 CMD Mode</label>
+        <div class="toggle-switch" id="cmdModeSwitch" onclick="toggleCmdMode()">
+            <div class="toggle-slider"></div>
+        </div>
     </div>
-  </div>
+
+</div>
   <!-- PC Control Input -->
   <div class="pc-control-container">
     <label for="pcIpInput">PC IP:</label>
     <input type="text" id="pcIpInput" placeholder="192.168.1.100" />
     <button onclick="savePcIp()">Save IP</button>
   </div>
+  <!--face-->
+  <div class="phoenix-section">
+  <div class="phoenix-robot">
+    <div class="robot-aura"></div>
+    <div class="robot-head"></div>
+
+    <div class="robot-face"></div>
+
+    <div class="robot-cheek left"></div>
+    <div class="robot-cheek right"></div>
+
+    <div class="robot-eyes-up">
+      <div class="robot-eye">
+        <div class="eye-ring"></div>
+        <div class="eye-core"></div>
+        <div class="eye-lid"></div>
+      </div>
+      <div class="robot-eye">
+        <div class="eye-ring"></div>
+        <div class="eye-core"></div>
+        <div class="eye-lid"></div>
+      </div>
+    </div>
+
+    <div class="robot-core"></div>
+  </div>
+</div>
+
+<canvas id="voiceWave" width="800" height="200"
+style="width:100%; max-width:900px; height:200px; margin-top:300px;"></canvas>
+
   <script>
     // CMD Mode state
     let cmdModeActive = false;
+    let phoenixModeActive = false;
     function toggleCmdMode() {
       cmdModeActive = !cmdModeActive;
       const toggle = document.getElementById('cmdModeToggle');
@@ -436,6 +592,24 @@
         document.getElementById('status').textContent = '🤖 AI Mode: ON - Normal operation';
       }
     }
+    function togglePhoenixMode() {
+  phoenixModeActive = !phoenixModeActive;
+
+  const toggle = document.getElementById("phoenixModeToggle");
+  const switchEl = document.getElementById("phoenixModeSwitch");
+
+  if (phoenixModeActive) {
+    toggle.classList.add("active");
+    switchEl.classList.add("active");
+    speak("Phoenix mode activated. Robot-only commands enabled.");
+    document.getElementById("status").textContent = "🔥 Phoenix Mode: ON";
+  } else {
+    toggle.classList.remove("active");
+    switchEl.classList.remove("active");
+    speak("Phoenix mode deactivated. Returning to AI mode.");
+    document.getElementById("status").textContent = "🤖 AI Mode: ON";
+  }
+}
     // Bluetooth globals
     let bleDevice = null, bleServer = null, bleService = null, bleCharacteristic = null;
     const SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
@@ -618,19 +792,112 @@
     listening = true;
     recognition.start();
 
-    const greeting = phoenixUser
-      ? `Hello ${phoenixUser}, Phoenix online and ready. I am listening.`
-      : "Phoenix online and ready. I am listening.";
+    // Custom greeting message
+    const niceGreeting = phoenixUser
+      ? `Hey ${phoenixUser}, I'm awake and fully online. What can I do for you?`
+      : "Phoenix online and ready. Listening...";
 
-    speak(greeting);
-        document.getElementById('reply').innerText = '🎧 Listening... say \'stop phoenix\' or \'exit phoenix\'.';
-        const btn = document.getElementById('talkBtn');
-        btn.innerHTML = '<span class="icon">🛑</span> LISTENING...';
-        btn.style.background = 'linear-gradient(90deg, #ff005e, #ff4da6)';
-        btn.style.boxShadow = '0 0 40px rgba(255, 0, 94, 0.6)';
-      }
-    });
+    speak(niceGreeting);
+
+    document.getElementById('reply').innerText = `🤖 ${niceGreeting}`;
+
+    const btn = document.getElementById('talkBtn');
+    btn.innerHTML = '<span class="icon">🛑</span> LISTENING...';
+    btn.style.background = 'linear-gradient(90deg, #ff005e, #ff4da6)';
+    btn.style.boxShadow = '0 0 40px rgba(255, 0, 94, 0.6)';
+  }
+});
+    
     function speak(txt) { const synth = window.speechSynthesis; let voices = synth.getVoices(); if (!voices.length) { synth.onvoiceschanged = () => speak(txt); return; } const utter = new SpeechSynthesisUtterance(txt); utter.rate = 1.0; utter.pitch = 0.5; utter.volume = 1; utter.voice = voices.find(v => v.name.includes('Google UK English Male')) || voices.find(v => v.name.includes('Google US English')) || voices.find(v => v.name.includes('English')) || voices[0]; synth.cancel(); synth.speak(utter); }
+  /* --- Wave Animation --- */
+let phoenixSpeaking = false;
+let speakWavePhase = 0;
+let analyser, dataArray;
+
+async function startWaveAnimation() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const audioContext = new AudioContext();
+    const source = audioContext.createMediaStreamSource(stream);
+
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    source.connect(analyser);
+
+    drawWave();
+}
+
+function drawWave() {
+    requestAnimationFrame(drawWave);
+
+    const canvas = document.getElementById("voiceWave");
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#00eaff";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#00eaff";
+    ctx.beginPath();
+
+    let sliceWidth = canvas.width / dataArray.length;
+    let x = 0;
+
+    if (analyser && !phoenixSpeaking) {
+        analyser.getByteTimeDomainData(dataArray);
+    } else if (phoenixSpeaking) {
+        speakWavePhase += 0.15;
+        for (let i = 0; i < dataArray.length; i++) {
+            let v = Math.sin(i * 0.04 + speakWavePhase);
+            dataArray[i] = 128 + v * 40;
+        }
+    }
+
+    for (let i = 0; i < dataArray.length; i++) {
+        let v = dataArray[i] / 128;
+        let y = (v * canvas.height) / 2;
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+
+        x += sliceWidth;
+    }
+
+    ctx.stroke();
+}
+
+startWaveAnimation();
+
+
+/* --- Blinking --- */
+const lids = document.querySelectorAll(".eye-lid");
+
+function robotBlink() {
+  lids.forEach(lid => {
+    lid.style.animation = "blink 300ms ease-in-out";
+    setTimeout(() => lid.style.animation = "", 320);
+  });
+}
+
+setInterval(() => {
+  if (Math.random() > 0.3) robotBlink();
+}, 2000);
+
+
+/* --- Eyes Follow Cursor --- */
+const pupils = document.querySelectorAll(".eye-core");
+
+document.addEventListener("mousemove", e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+  pupils.forEach(p => {
+    p.style.transform = `translate(${x}px, ${y}px)`;
+  });
+});
+
   </script>
 </body>
 
