@@ -26,7 +26,7 @@
 
     /* Header */
     header {
-      position: fixed;
+      position: absolute;
       top: 40px;
       left: 60px;
       font-family: 'Orbitron', sans-serif;
@@ -42,7 +42,7 @@
 
     /* Profile icon */
     .profile-icon {
-      position: fixed;
+      position: absolute;
       top: 32px;
       right: 200px;
       width: 45px;
@@ -67,7 +67,7 @@
 
     /* Back button */
     .back-btn {
-      position: fixed;
+      position: absolute;
       top: 32px;
       right: 40px;
       padding: 10px 28px;
@@ -90,7 +90,7 @@
 
     /* Bluetooth button */
     .bluetooth-btn {
-      position: fixed;
+      position: absolute;
       top: 32px;
       right: 260px;
       padding: 10px 20px;
@@ -799,7 +799,7 @@ style="width:100%; max-width:900px; height:200px; margin-top:300px;"></canvas>
 
     speak(niceGreeting);
 
-    document.getElementById('reply').innerText = `🤖 ${niceGreeting}`;
+    document.getElementById("reply").innerText = "🤖 " + niceGreeting;
 
     const btn = document.getElementById('talkBtn');
     btn.innerHTML = '<span class="icon">🛑</span> LISTENING...';
@@ -808,7 +808,36 @@ style="width:100%; max-width:900px; height:200px; margin-top:300px;"></canvas>
   }
 });
     
-    function speak(txt) { const synth = window.speechSynthesis; let voices = synth.getVoices(); if (!voices.length) { synth.onvoiceschanged = () => speak(txt); return; } const utter = new SpeechSynthesisUtterance(txt); utter.rate = 1.0; utter.pitch = 0.5; utter.volume = 1; utter.voice = voices.find(v => v.name.includes('Google UK English Male')) || voices.find(v => v.name.includes('Google US English')) || voices.find(v => v.name.includes('English')) || voices[0]; synth.cancel(); synth.speak(utter); }
+   function speak(text) {
+    const synth = window.speechSynthesis;
+    let voices = synth.getVoices();
+
+    if (!voices || voices.length === 0) {
+        synth.onvoiceschanged = () => speak(text);
+        return;
+    }
+
+    phoenixSpeaking = true;
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 1.0;
+    utter.pitch = 0.9;
+    utter.volume = 1;
+
+    utter.voice =
+        voices.find(v => v.name.includes("Google UK English Male")) ||
+        voices.find(v => v.name.includes("Google US English")) ||
+        voices.find(v => v.lang === "en-US") ||
+        voices[0];
+
+    utter.onend = () => {
+        phoenixSpeaking = false;
+    };
+
+    synth.cancel();
+    synth.speak(utter);
+}
+
   /* --- Wave Animation --- */
 let phoenixSpeaking = false;
 let speakWavePhase = 0;

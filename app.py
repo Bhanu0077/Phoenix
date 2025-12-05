@@ -29,7 +29,7 @@ from flask import (
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-PHOENIX_SECRET_KEY = "c33d64df149c938027dd4d8c49c7620010101801fb2d42a4541e5a812ab5fdad"
+PHOENIX_SECRET_KEY = "5fd611b3f3b7faea028d6250b3662f061e628edc3f52868b0e9ad38a7969e184"
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465  # SSL port
 SMTP_USER = "phoenix.v.1.00.00@gmail.com"
@@ -42,7 +42,7 @@ app = Flask(__name__, template_folder="Templates")
 app.secret_key = PHOENIX_SECRET_KEY
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key="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"
 )
 
 
